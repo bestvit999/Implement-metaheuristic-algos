@@ -3,7 +3,7 @@
 > Execute by shell command
 ```
 $ g++ onemax-solving-by-ES.cpp
-$ ./a.exe {bit size}
+$ ./a.exe {bit size} {iteration limits}
 ```
 
 > It will be out put like
