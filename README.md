@@ -84,6 +84,9 @@ $ ./a.exe {bit size} {durations limits}
 ...
 ```
 
+### Diagram
+<img align="middle" width="50%" src="https://imgur.com/a/jcYSzA4.png">
+
 ## ONEMAX Solving By Hill Climbing
 
 The spirit of Exhaustive search is that you just iteratively test new candidate solutions in the region of your current candidate, and adopt the new ones if they’re better, This enables you to climb up the hill until you reach a local optimum.
@@ -115,3 +118,6 @@ $ ./a.exe {bit size} {durations limits} {affect range}
 1111101111011110111110111110111011111110111011011110011110111011011011111110111111101111110111111111, one count is : 82
 ...
 ```
+
+### Diagram
+<img align="middle" width="50%" src="https://imgur.com/dEVRZZQ.png">
