@@ -85,7 +85,7 @@ $ ./a.exe {bit size} {durations limits}
 ```
 
 ### Diagram
-<img align="middle" width="50%" src="https://imgur.com/a/jcYSzA4.png">
+<img align="middle" width="100%" src="https://imgur.com/AhM6gnz.png">
 
 ## ONEMAX Solving By Hill Climbing
 
@@ -120,4 +120,4 @@ $ ./a.exe {bit size} {durations limits} {affect range}
 ```
 
 ### Diagram
-<img align="middle" width="50%" src="https://imgur.com/dEVRZZQ.png">
+<img align="middle" width="100%" src="https://imgur.com/dEVRZZQ.png">
