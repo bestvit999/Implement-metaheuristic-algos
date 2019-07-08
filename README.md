@@ -1,9 +1,3 @@
----
-title: 'Project documentation template'
-disqus: hackmd
----
-
-
 # Metaheuristics-Algorithm
 
 ## There are *FOUR MAIN STAGE*, we have some algorithm below
