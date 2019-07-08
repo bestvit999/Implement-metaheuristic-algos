@@ -1,19 +1,24 @@
 #include <string>
 #include <iostream>
 #include <vector>
-
+#include <conio.h>
 using namespace std;
 
+/* attribute */
+// current one-max count
 int maxCount = 0;
+// use for storing best bitsting
+vector<bool> bestBitSet;
 
+/* method */
 // init the bitstring from giving bit size
 vector<bool> initialization(int);
 // find next candidate bit string to be evaluated
-void testNext(vector<bool> & bitset,int end, int carryIn);
+void tweak(vector<bool> & bitset,int end, int carryIn);
 // evaluate the number of one in bit string
-int eval(vector<bool> bitset);
-// show current one-max value
-int currentMax(int oneCount);
+int evaluate(vector<bool> bitset);
+// show current one-max value, and store bitsting to <bestBitSet>
+int currentMax(int oneCount,vector<bool> bitset);
 
 int main(int argc,char * argv[]){
     
@@ -27,15 +32,15 @@ int main(int argc,char * argv[]){
 
     // when the number of one < number of one-max that we want
     // then keep looking 
-    while(eval(bitset) < stoi(all_args[0])){
-        testNext(bitset,bitset.size()-1,1); // find next condidate bit string to be evaluated
+    while(evaluate(bitset) < stoi(all_args[0])){
+        tweak(bitset,bitset.size()-1,1); // find next condidate bit string to be evaluated
         
         // print the bitstring current status
         for (int i = 0;i<bitset.size();i++){
             cout << bitset[i];
         }
-        int oneCount = eval(bitset);
-        cout << " one count is : " << oneCount << ", current Max is : " << currentMax(oneCount) << '\n';
+        int oneCount = evaluate(bitset);
+        cout << " one count is : " << oneCount << ", current Max is : " << currentMax(oneCount,bitset) << '\n';
     }
     
 
@@ -55,13 +60,13 @@ vector<bool> initialization(int bits){
 
 // recursively to setting next candidate by adding '1' to bitstring.
 // use adding method below is due to either <ulong> or <ullong> both could happend overflow issue 
-void testNext(vector<bool> & bitset,int end, int carryIn){
+void tweak(vector<bool> & bitset,int end, int carryIn){
     if (end < 0) { return; }
 
     if (bitset[end] == 1 && carryIn == 1){
         bitset[end] = 0;
         carryIn = 1;
-        testNext(bitset,end-1,carryIn);
+        tweak(bitset,end-1,carryIn);
     }else if (bitset[end] == 1 && carryIn == 0){
         return;
     }else if (bitset[end] == 0 && carryIn == 1){
@@ -73,7 +78,7 @@ void testNext(vector<bool> & bitset,int end, int carryIn){
     }
 }
 
-int eval(vector<bool> bitset){
+int evaluate(vector<bool> bitset){
     int len = bitset.size();
     int oneCount = 0;
     for (int i = 0;i<len;i++){
@@ -84,8 +89,9 @@ int eval(vector<bool> bitset){
     return oneCount;
 }
 
-int currentMax(int oneCount){
+int currentMax(int oneCount,vector<bool> bitset){
     if (oneCount > maxCount){
         maxCount = oneCount;
+        copy(bitset.begin(),bitset.end(),bestBitSet);
     }
 }
