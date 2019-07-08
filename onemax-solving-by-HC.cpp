@@ -1,102 +1,115 @@
-#include <string>
 #include <iostream>
+#include <ctime>
+#include <chrono>
+#include <cstdlib>
+#include <conio.h>
 #include <vector>
-#include <fstream> // for outFile
-#include <cstdlib> // for random
-#include <ctime> // change random seed by time
-#include <chrono> // for compute duration
 
 using namespace std;
 
-int maxCount = 0;
-
 // init the bitstring from giving bit size
-vector<bool> initialization(int);
+vector<bool> initialization(int bits);
 // find next candidate bit string to be evaluated
-void tweak(vector<bool> & bitset,int begin, int end, double duration);
+vector<bool> tweak(vector<bool> origin, int range);
 // evaluate the number of one in bit string
 int eval(vector<bool> bitset);
-int eval_in_range(vector<bool> bitset, int begin, int end);
-// show current one-max value
-int currentMax(int oneCount);
+// evaluate the number of one in bit string in some particular range
+int eval_in_range(vector<bool> tmp, int begin, int range);
+
+// for calculate the tweak duration
+auto start = chrono::system_clock::now();
 
 int main(int argc,char * argv[]){
-    
-    // for output dataset
-    ofstream outFile;
-    outFile.open("data/dataset-hc.dat",ofstream::out);
-
-    vector<string> all_args;
     // read all arguments to *all_args*
-    all_args.assign(argv+1,argv+argc);
+    vector<string> all_args;
+    all_args.assign(argv+1, argv+argc);
+
+    int bits = stoi(all_args[0]);
+    int iterations = stoi(all_args[1]);
+    int range = stoi(all_args[2]);
 
     // init the bitstring, default is all zero
     // btw, it also can be set in random case
-    vector<bool> bitset = initialization(stoi(all_args[0]));
-    // iterminal condition
-    unsigned long long termial_iterations = stoi(all_args[1]);
+    vector<bool> onemax = initialization(bits);
 
-    // count current iterations
-    unsigned long long iters = 0;
+    vector<bool> tmp;
+    /* while iterations as known as SELECTION STAGE  */ 
+    while (eval(onemax) < bits){
+        /* btw, we also can apply some aggrasive approach here */
+        /* by multi-tweak at the same time, and pick up the highest eval(onemax) one */
+        tmp = tweak(onemax,range);
 
-    /* this stage is SELECTION */
-    /* it will select the higher eval(<bitset>) as new bitset */
-    // when the number of one < number of one-max that we want, then keep looking
-    while((eval(bitset) < stoi(all_args[0])) && iters < termial_iterations ){
-        
-        
-        tweak(/* CODE HERE */); // find next condidate bit string to be evaluated
-        
-        // print the bitstring current status
-        for (int i = 0;i<bitset.size();i++){
-            outFile << bitset[i];
-            cout << bitset[i];
+        int tmp_oneCount = eval(tmp);
+        int onemax_oneCount = eval(onemax);
+        // find some tweak is better than older, then update it
+        if (tmp_oneCount > onemax_oneCount){
+            onemax = tmp;
+            for (int i = 0; i < bits ; i ++){
+                cout << onemax[i];
+            }
+            cout << ", one count is : " << eval(onemax) << endl;
         }
-
-        int oneCount = eval(bitset);
-        cout << " one count is : " << oneCount << ", current Max is : " << currentMax(oneCount) << '\n';
-        
-        outFile << ' ' << oneCount << '\n';
-        iters++;
     }
-
-    outFile.close();
 
     cout << '\n';
     system("pause");
 }
 
-// init at random point to start searching
+// init the bitstring, default is all zero
+// btw, it also can be set in random case
 vector<bool> initialization(int bits){
-    vector<bool> b;
-    // set random seed
-    srand(time(0)); 
-    // default setting, we assign all zero to bitstring
-    for (int i = 0;i<bits;i++){
-        int x = rand() % 2;
-        b.push_back(x);
+    vector<bool> onemax;
+    for (int i = 0; i < bits ; i++){
+        onemax.push_back(0);
     }
-    return b;
+    return onemax;
 }
 
-// maybe we can have tweak *more than one bitsting* at the same time
-// and we can setting a range, so we can apply tweak in a <specific range> 
-// also can setting a <Time duration>, that used to terminate Tweak
-void tweak(vector<bool> & bitset,int begin, int end, double duration){
-    int onemaxCount = eval_in_range(bitset,begin,end);
-    vector<bool> tmpBitset = bitset;
+/* the most important part */ 
+/* here we use the random search skill, it will tweak some portion of bitstring */
+vector<bool> tweak(vector<bool> origin, int range){
+    srand(time(0)); // set a random seed
 
-    auto start = chrono::system_clock::now();
-    while(1){
+    vector<bool> tmp = origin; // copy the origin bitstring, use for tweaking
+    int len = tmp.size();
+    int begin = rand() % len;
 
-        
+    // store the eval(origin) value, for detect replace bitstring or not
+    int onecount_origin = eval_in_range(tmp,begin,range);
 
+    // here we apply random skill to portion of bitstring
+    for (int i = 0; i < range; i++){
+        tmp[(begin+i)%len] = rand() % 2;
+    }
+    int onecount_tmp = eval_in_range(tmp,begin,range); // then we got eval(tmp), so we can detect which is better
+
+
+    if (onecount_tmp > onecount_origin){
+        // use for count the durations for Tweak process
         auto end = chrono::system_clock::now();
         chrono::duration<double> durations = end - start;
-        if (durations.count() > duration){
-            break;
+
+        onecount_origin = onecount_tmp;
+        cout << "> Tweak successed, duration :" << durations.count() << endl;
+
+        // if eval(tmp) > eval(origin) then replace the origin bitstring
+        return tmp;
+    }else{
+        // else keep origin bitstring
+        return origin;
+    }
+    
+}
+
+int eval_in_range(vector<bool> tmp, int begin, int range){
+    int len = tmp.size();
+    int onecount = 0;
+    for(int i = 0; i < range; i++){
+        if (tmp[(begin+i)%len] == 1){
+            onecount++;
         }
     }
+    return onecount;
 }
 
 int eval(vector<bool> bitset){
@@ -108,21 +121,4 @@ int eval(vector<bool> bitset){
         }
     }
     return oneCount;
-}
-
-int eval_in_range(vector<bool> bitset, int begin, int end){
-    int len = bitset.size();
-    int oneCount = 0;
-    for (int i = 0;i<len;i++){
-        if (bitset[i] == 1){
-            oneCount++;
-        }
-    }
-    return oneCount;
-}
-
-int currentMax(int oneCount){
-    if (oneCount > maxCount){
-        maxCount = oneCount;
-    }
 }
