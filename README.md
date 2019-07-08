@@ -50,7 +50,7 @@ The Max One problem is a very simple problem where evolution is used to find a *
 The objective in this problem is to find a binary string that is identical to a specified target
 
 > So, onemax is a *Combinatorial and Discrete problem*,
-> there are tons of combinations to be found the answer
+> there are tons of combinations of the answer to be found
 
 ## ONEMAX Solving By Exhaustive Search
 
