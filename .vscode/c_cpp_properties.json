@@ -4,9 +4,17 @@
             "name": "Win32",
             "includePath": [
                 "${workspaceRoot}",
+<<<<<<< HEAD
                 "C:\\MinGW\\include",
                 "C:\\MinGW\\lib\\gcc\\mingw32\\6.3.0\\include",
                 "C:\\MinGW\\lib\\gcc\\mingw32\\6.3.0\\include\\c++"
+=======
+                "C:/MinGW/include",
+                "C:/MinGW/lib/gcc/mingw32/6.3.0/include",
+                "C:/MinGW/lib/gcc/mingw32/6.3.0/include/c++",
+                "C:/MinGW/lib/gcc/mingw32/6.3.0/include/ssp",
+                "C:/MinGW/lib/gcc/mingw32/6.3.0/include/python"
+>>>>>>> 9a5190cc991b8316eeae00af24ec79b14fc75aea
             ],
             "defines": [
                 "_DEBUG",
@@ -18,9 +26,17 @@
             "browse": {
                 "path": [
                     "${workspaceRoot}",
+<<<<<<< HEAD
                     "C:\\MinGW\\include",
                     "C:\\MinGW\\lib\\gcc\\mingw32\\6.3.0\\include",
                     "C:\\MinGW\\lib\\gcc\\mingw32\\6.3.0\\include\\c++"
+=======
+                    "C:/MinGW/include",
+                    "C:/MinGW/lib/gcc/mingw32/6.3.0/include",
+                    "C:/MinGW/lib/gcc/mingw32/6.3.0/include/c++",
+                    "C:/MinGW/lib/gcc/mingw32/6.3.0/include/ssp",
+                    "C:/MinGW/lib/gcc/mingw32/6.3.0/include/python"
+>>>>>>> 9a5190cc991b8316eeae00af24ec79b14fc75aea
                 ],
                 "limitSymbolsToIncludedHeaders": true,
                 "databaseFilename": ""

@@ -2,6 +2,7 @@
 #include <iostream>
 #include <vector>
 #include <conio.h>
+#include <fstream>
 using namespace std;
 
 /* attribute */
@@ -22,6 +23,10 @@ int currentMax(int oneCount,vector<bool> bitset);
 
 int main(int argc,char * argv[]){
     
+    // for output dataset
+    ofstream outFile;
+    outFile.open("data/dataset-es.dat",ofstream::out);
+
     vector<string> all_args;
     // read all arguments to *all_args*
     all_args.assign(argv+1,argv+argc);
@@ -29,6 +34,9 @@ int main(int argc,char * argv[]){
     // init the bitstring, default is all zero
     // btw, it also can be set in random case
     vector<bool> bitset = initialization(stoi(all_args[0]));
+    // iterminal condition
+    unsigned long long termial_iterations = stoi(all_args[1]);
+
 
     // when the number of one < number of one-max that we want
     // then keep looking 
@@ -37,12 +45,14 @@ int main(int argc,char * argv[]){
         
         // print the bitstring current status
         for (int i = 0;i<bitset.size();i++){
+            outFile << bitset[i];
             cout << bitset[i];
         }
         int oneCount = evaluate(bitset);
         cout << " one count is : " << oneCount << ", current Max is : " << currentMax(oneCount,bitset) << '\n';
     }
-    
+
+    outFile.close();
 
     cout << '\n';
     system("pause");
