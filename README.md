@@ -6,10 +6,7 @@ disqus: hackmd
 
 # Metaheuristics-Algorithm
 
-:::info
-There are four *MAIN STAGE*
-we have some algorithm below
-:::
+## There are *FOUR MAIN STAGE*, we have some algorithm below
 
 * Iinitialization
     ```
@@ -40,33 +37,13 @@ we have some algorithm below
         replace S by tweak(S)
         then repeat tweak(S)
     ```
+    
+
 # Flow Chart
-
-```graphviz
-digraph {
-  compound=true
-  rankdir=TD
-
-  graph [ fontname="Source Sans Pro", fontsize=20];
-  node [ fontname="Source Sans Pro", fontsize=18];
-  edge [ fontname="Source Sans Pro", fontsize=12];
-    
-    Iinitialization [ shape = "box"]
-    Modification [ shape = "box"]    
-    Assessment [ shape = "box"]
-    Selection [ shape = "diamond"]
-    
-    Iinitialization->Modification:n
-    Modification->Assessment:n
-    Assessment->Selection
-    Selection:e->Modification:e [label = "repeat"]
-    Selection->Output [label = "ideal solution \n or \n run out of time"]
-}
-```
+<img align="left" width="100%" src="https://imgur.com/cQavc28.png">
 
 
----
-:::info
+
 # Description for ONE-MAX problem
 
 The Max One problem is a very simple problem where evolution is used to find a *specific binary string*
@@ -77,18 +54,17 @@ The Max One problem is a very simple problem where evolution is used to find a *
 - Target for the problem: <111111111111111111111111111111111>
 
 The objective in this problem is to find a binary string that is identical to a specified target
-:::
+
 > So, onemax is a *Combinatorial and Discrete problem*,
 > there are tons of combinations to be found the answer
 
-# ONEMAX Solving By Exhaustive Search
+## ONEMAX Solving By Exhaustive Search
 
-:::info
 The spirit of Exhaustive search is very simple that consists of systematically enumerating all possible candidates for the solution and checking whether each candidate satisfies the problem's statement.
-:::
+
 > Exhaustive Search as known as Brute-force search
 
-## Compile and Execute
+### Compile and Execute
 > Execute by shell command
 ```
 $ g++ onemax-solving-by-ES.cpp
@@ -114,14 +90,14 @@ $ ./a.exe {bit size} {durations limits}
 ...
 ```
 
-# ONEMAX Solving By Hill Climbing
-:::info
+## ONEMAX Solving By Hill Climbing
+
 The spirit of Exhaustive search is that you just iteratively test new candidate solutions in the region of your current candidate, and adopt the new ones if they’re better, This enables you to climb up the hill until you reach a local optimum.
-:::
+
 > In here, we apply Hill-Climbing with Random Range
 > It means that we do Hill-Climbing for a certain random range of binary string in each iteration
 
-## Compile and Execute
+### Compile and Execute
 > Execute by shell command
 ```
 $ g++ onemax-solving-by-HC.cpp
