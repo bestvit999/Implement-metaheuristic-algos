@@ -2,6 +2,7 @@
 #include <iostream>
 #include <vector>
 #include <fstream>
+#include <chrono>
 
 using namespace std;
 
@@ -15,6 +16,9 @@ void tweak(vector<bool> & bitset,int end, int carryIn);
 int eval(vector<bool> bitset);
 // show current one-max value
 int currentMax(int oneCount);
+
+// for calculate the tweak duration
+auto start = chrono::system_clock::now();
 
 int main(int argc,char * argv[]){
     
@@ -30,34 +34,34 @@ int main(int argc,char * argv[]){
     // btw, it also can be set in random case
     vector<bool> bitset = initialization(stoi(all_args[0]));
     // iterminal condition
-    unsigned long long termial_iterations = stoi(all_args[1]);
+    double durations = stoi(all_args[1]);
 
-
-    unsigned long long iters = 0;
+    double _durations = 0.0;
 
     /* this stage is SELECTION */
     /* it will select the higher eval(<bitset>) as new bitset */
     // when the number of one < number of one-max that we want, then keep looking
-    while((eval(bitset) < stoi(all_args[0])) && iters < termial_iterations ){
+    while((eval(bitset) < stoi(all_args[0])) && _durations < durations ){
         tweak(bitset,bitset.size()-1,1); // find next condidate bit string to be evaluated
         
-        // print the bitstring current status
+        //print the bitstring current status
         for (int i = 0;i<bitset.size();i++){
             outFile << bitset[i];
             cout << bitset[i];
         }
 
+        auto end = chrono::system_clock::now();
+        chrono::duration<double> durations = end - start;
+
+        _durations = durations.count();
+
         int oneCount = eval(bitset);
-        cout << " one count is : " << oneCount << ", current Max is : " << currentMax(oneCount) << '\n';
+        cout << ", duration is : " << _durations << ", one count is : " << oneCount << ", current Max is : " << currentMax(oneCount) << '\n';
         
-        outFile << ' ' << oneCount << '\n';
-        iters++;
+        outFile << ' ' << _durations << ' ' << oneCount << '\n';
     }
 
     outFile.close();
-
-    cout << '\n';
-    system("pause");
 }
 
 vector<bool> initialization(int bits){

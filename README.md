@@ -5,7 +5,7 @@
 > Execute by shell command
 ```
 $ g++ onemax-solving-by-ES.cpp
-$ ./a.exe {bit size} {iteration limits}
+$ ./a.exe {bit size} {durations limits}
 ```
 
 > It will be out put like
@@ -31,7 +31,7 @@ $ ./a.exe {bit size} {iteration limits}
 > Execute by shell command
 ```
 $ g++ onemax-solving-by-HC.cpp
-$ ./a.exe {bit size} {iteration limits} {affect range}
+$ ./a.exe {bit size} {durations limits} {affect range}
 ```
 
 > It will be out put like
