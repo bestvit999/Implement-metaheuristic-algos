@@ -24,6 +24,8 @@ auto start = chrono::system_clock::now();
 ofstream outFile;
 
 int main(int argc,char * argv[]){
+    srand(time(0)); // set a random seed
+    
     // for output 'data.dat' file
     outFile.open("data/dataset-hc.dat",ofstream::out);
 
@@ -79,8 +81,6 @@ vector<bool> initialization(int bits){
 /* the most important part */ 
 /* here we use the random search skill, it will tweak some portion of bitstring */
 vector<bool> tweak(vector<bool> origin, int range){
-    srand(time(0)); // set a random seed
-
     vector<bool> tmp = origin; // copy the origin bitstring, use for tweaking
     int len = tmp.size();
     int begin = rand() % len;
