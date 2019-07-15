@@ -34,7 +34,7 @@
     
 
 # Flow Chart
-<img align="middle" width="50%" src="https://imgur.com/cQavc28.png">
+<img align="middle" width="50%" src="data\figure\flowchart.png">
 
 
 
@@ -54,7 +54,7 @@ The objective in this problem is to find a binary string that is identical to a 
 
 ## ONEMAX Solving By Exhaustive Search
 
-The spirit of Exhaustive search is very simple that consists of systematically enumerating all possible candidates for the solution and checking whether each candidate satisfies the problem's statement.
+The spirit of Exhaustive Search is very simple that consists of systematically enumerating all possible candidates for the solution and checking whether each candidate satisfies the problem's statement.
 
 > Exhaustive Search as known as Brute-force search
 
@@ -85,11 +85,11 @@ $ ./a.exe {bit size} {durations limits}
 ```
 
 ### Diagram
-<img align="middle" width="100%" src="https://imgur.com/AhM6gnz.png">
+<img align="middle" width="100%" src="data\figure\dataset-es.png">
 
 ## ONEMAX Solving By Hill Climbing
 
-The spirit of Exhaustive search is that you just iteratively test new candidate solutions in the region of your current candidate, and adopt the new ones if they’re better, This enables you to climb up the hill until you reach a local optimum.
+The spirit of Hill-Climbing is that you just iteratively test new candidate solutions in the region of your current candidate, and adopt the new ones if they’re better, This enables you to climb up the hill until you reach a local optimum.
 
 > In here, we apply Hill-Climbing with Random Range
 > It means that we do Hill-Climbing for a certain random range of binary string in each iteration
@@ -104,20 +104,52 @@ $ ./a.exe {bit size} {durations limits} {affect range}
 > It will be out put like
 ```
 ...
-> Tweak successed, duration:80.6897
-1111101111011110111110111110010011111110101011011110011110111011011011111110111101110011111001111111, one count is : 76
-> Tweak successed, duration :96.6895
-1111101111011110111110111110010011111110101011011110011110111011011011111110111110111011111001111111, one count is : 77
-> Tweak successed, duration :99.6899
-1111101111011110111110111110010011111110101011011110011110111011011011111110111110111011110111111111, one count is : 78
-> Tweak successed, duration :110.689
-1111101111011110111110111110111011111110101011011110011110111011011011111110111110111011110111111111, one count is : 80
-> Tweak successed, duration :114.69
-1111101111011110111110111110111011111110111011011110011110111011011011111110111110111011110111111111, one count is : 81
-> Tweak successed, duration :127.69
-1111101111011110111110111110111011111110111011011110011110111011011011111110111111101111110111111111, one count is : 82
-...
+> Tweak successed, duration :0.3918
+1111111111111111101111111111111111011111101111111111111111111111111111111111111111111111111111101111, one count is : 96
+> Tweak successed, duration :0.396788
+1111111111111111101111111111111111111111101111111111111111111111111111111111111111111111111111101111, one count is : 97
+> Tweak successed, duration :0.401773
+1111111111111111101111111111111111111111111111111111111111111111111111111111111111111111111111101111, one count is : 98
+> Tweak successed, duration :0.407777
+1111111111111111101111111111111111111111111111111111111111111111111111111111111111111111111111111111, one count is : 99
+> Tweak successed, duration :0.421739
+1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111, one count is : 100
 ```
 
 ### Diagram
-<img align="middle" width="100%" src="https://imgur.com/dEVRZZQ.png">
+<img align="middle" width="100%" src="data\figure\dataset-hc.png">
+
+
+## 01-Knapsack Solving By Hill Climbing
+
+The spirit of Hill Climbing is that you just iteratively test new candidate solutions in the region of your current candidate, and adopt the new ones if they’re better, This enables you to climb up the hill until you reach a local optimum.
+
+> In here, we apply Hill-Climbing with Random Range
+> It means that we do Hill-Climbing for a certain random range of binary string in each iteration
+
+### Compile and Execute
+> Execute by shell command
+```
+$ g++ knapsack-solving-by-HC.cpp
+$ ./a.exe {datasetFolder} {duration limits} {random range}
+```
+
+> It will be out put like
+```
+...
+> Tweak successed, duration :0.086074
+110101101110000110010110, value is : 13473482, weight is : 6366619, cp is : 2.11627
+> Tweak successed, duration :0.104027
+110101100110010110010111, value is : 13482886, weight is : 6383545, cp is : 2.11213
+> Tweak successed, duration :0.40861
+110100100110110100010101, value is : 13496672, weight is : 6402111, cp is : 2.10816
+> Tweak successed, duration :0.416589
+110100100110100101010111, value is : 13496748, weight is : 6402623, cp is : 2.108
+> Tweak successed, duration :0.424566
+110110100110100100000111, value is : 13521334, weight is : 6392842, cp is : 2.11507
+> Tweak successed, duration :0.43853
+110111000110100100000111, value is : 13549094, weight is : 6402560, cp is : 2.1162
+```
+
+### Diagram
+<img align="middle" width="100%" src="data\figure\knapsack-hc.png">

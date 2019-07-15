@@ -9,21 +9,25 @@
 using namespace std;
 
 
-vector<bool> initialization(vector<vector<int>> knapsack_data); // *init* each item's value and weight from giving dataset
-vector<bool> tweak(vector<bool> origin,int capacity, int range); // generate the next token, a.k.a. *Transportation*
+vector<int> initialization(); // *init* each item's value and weight from giving dataset
+vector<int> tweak(vector<int> origin, int range); // generate the next token, a.k.a. *Transportation*
 
 /* fetch the .dat file (dataset) */
-vector<vector<int>> getLines(string file_path);
-void getValue_n_Weight(vector<vector<int>> knapsack_data);
-vector<int> split(string line, string delimeter);
+void fetchFile(string path_to_input_folder);
 
 /* assess the token, a.k.a. Evaluate */
-int evaluate_value(vector<bool> itemselection);
-int evaluate_weight(vector<bool> itemselection);
+int evaluate_value(vector<int> itemselection);
+int evaluate_weight(vector<int> itemselection);
+
+/* terminal by comparing <itemSelected> and <opt_result> */
+int isOpt_result(vector<int> itemSelected);
 
 /* global variable */
+vector<int> capacity;
 vector<int> values;
 vector<int> weights;
+vector<int> opt_result;
+vector<vector<int>> dataframe = {capacity,values,weights,opt_result};
 
 /* calculate the tweak duration */
 double _durations = 0.0;
@@ -32,6 +36,7 @@ auto start = chrono::system_clock::now();
 // for output file
 ofstream outFile;
 
+
 int main(int argc,char * argv[]){
     srand(time(0));
     // read all arguments to *all_args*
@@ -39,33 +44,42 @@ int main(int argc,char * argv[]){
     all_args.assign(argv+1, argv+argc);
 
     // path to dataset
-    string base_path = "data//";
-    string file_name = all_args[0];
+    string base_path = "data//input//";
+    string datasetFolder = all_args[0];
     
-    int capacity = stoi(all_args[1]); // knapsack capacity
-    int durations = stoi(all_args[2]); // constraint variable
-    int range = stoi(all_args[3]); // random size
+    int durations = stoi(all_args[1]); // constraint variable
+    int range = stoi(all_args[2]); // random size
 
-    // fetch knapsack data from .dat file (dataset)
-    vector<vector<int>> knapsack_data = getLines(base_path.append(file_name));
-    getValue_n_Weight(knapsack_data); // and assign it to <global variable>
+    
+
+    // fetch knapsack data from giving dataset folder
+    string path_to_dataset_folder = base_path + datasetFolder;
+    fetchFile(path_to_dataset_folder);
 
     // default is all zero, it means that no item be selected
-    vector<bool> itemSelected = initialization(knapsack_data);
-    vector<bool> tmp;
+    vector<int> itemSelected = initialization();
+    vector<int> tmp;
 
-    outFile.open("data//dataset-knapsack.dat");
+    string path_to_output_folder = "data//output//";
+    string output_file = path_to_output_folder + "knapsack-hc.dat";
+
+    outFile.open(output_file);
+
+    // count iterations
+    int iterations = 0;
 
     /* while iterations as known as SELECTION STAGE  */ 
-    while (_durations < durations){
+    while (_durations < durations && !isOpt_result(tmp)){
+        iterations++;
+
         /* btw, we also can apply some aggrasive approach here */
         /* by multi-tweak at the same time, and pick up the highest eval(itemSelected) one */
-        tmp = tweak(itemSelected,capacity,range);
+        tmp = tweak(itemSelected,range);
 
         int tmp_value = evaluate_value(tmp);
         int best_value = evaluate_value(itemSelected);
         // find some tweak is better than older, then update it
-        if (tmp_value > best_value && evaluate_weight(itemSelected) <= capacity){
+        if (tmp_value > best_value && evaluate_weight(itemSelected) <= dataframe[0][0]){
             itemSelected = tmp;
             for (int i = 0; i < itemSelected.size() ; i ++){
                 outFile << itemSelected[i];
@@ -73,7 +87,7 @@ int main(int argc,char * argv[]){
             }
             double cp =  double(evaluate_value(itemSelected)) / double(evaluate_weight(itemSelected));
             cout << ", value is : " << evaluate_value(itemSelected) << ", weight is : " << evaluate_weight(itemSelected) << ", cp is : " << cp << endl;
-            outFile << ' ' << evaluate_value(itemSelected) << ' ' << cp << '\n';
+            outFile << ' ' << evaluate_value(itemSelected) << ' ' << iterations << ' ' << cp << '\n';
         }
 
         // use for controlling process duration limit
@@ -86,9 +100,9 @@ int main(int argc,char * argv[]){
 
 // init the bitstring, default is all zero
 // btw, it also can be set in random case
-vector<bool> initialization(vector<vector<int>> knapsack_data){
-    vector<bool> itemSelected;
-    for (int i = 0; i < knapsack_data.size();i++){
+vector<int> initialization(){
+    vector<int> itemSelected;
+    for (int i = 0; i < dataframe[1].size();i++){
         itemSelected.push_back(0); // default select none
     }
     return itemSelected;
@@ -96,8 +110,8 @@ vector<bool> initialization(vector<vector<int>> knapsack_data){
 
 /* the most important part */ 
 /* here we use the random search skill, it will tweak some portion of bitstring */
-vector<bool> tweak(vector<bool> origin,int capacity, int range){
-    vector<bool> tmp = origin; // copy the origin bitstring, use for tweaking
+vector<int> tweak(vector<int> origin, int range){
+    vector<int> tmp = origin; // copy the origin bitstring, use for tweaking
     int len = tmp.size();
 
     // store the eval(origin) value, for detect replace bitstring or not
@@ -111,7 +125,7 @@ vector<bool> tweak(vector<bool> origin,int capacity, int range){
     int value_tmp = evaluate_value(tmp); // then we got eval(tmp), so we can detect which is better
 
 
-    if (value_tmp > value_origin && evaluate_weight(tmp) <= capacity){
+    if (value_tmp > value_origin && evaluate_weight(tmp) <= dataframe[0][0]){
         // use for output the durations for Tweak process
         auto end = chrono::system_clock::now();
         chrono::duration<double> durations = end - start;
@@ -126,21 +140,21 @@ vector<bool> tweak(vector<bool> origin,int capacity, int range){
     }
 }
 
-int evaluate_value(vector<bool> itemselection){
+int evaluate_value(vector<int> itemselection){
     int totalValue = 0;
     for (int i = 0;i < itemselection.size();i++){
         if (itemselection[i]){
-            totalValue += values[i];
+            totalValue += dataframe[1][i];
         }
     }        
     return totalValue;
 }
 
-int evaluate_weight(vector<bool> itemselection){
+int evaluate_weight(vector<int> itemselection){
     int totalWeight = 0;
     for (int i = 0;i < itemselection.size();i++){
         if (itemselection[i]){
-            totalWeight += weights[i];
+            totalWeight += dataframe[2][i];
         }
     }
         
@@ -148,32 +162,29 @@ int evaluate_weight(vector<bool> itemselection){
 
 }
 
-vector<vector<int>> getLines(string file_path){
-    vector<vector<int>> df;
-
+void fetchFile(string path_to_input_folder){
     string line;
-    string delimeter = " ";
-    ifstream myfile(file_path);
-    int i = 0;
-    while(getline(myfile,line)){
-        df.push_back(split(line," "));
+
+    // path configuration
+    string path_to_capacity = path_to_input_folder + "//capacity.dat";
+    string path_to_value = path_to_input_folder + "//value.dat";
+    string path_to_weight = path_to_input_folder + "//weight.dat";
+    string path_to_opt_result = path_to_input_folder + "//opt_result.dat";
+    
+    vector<string> args = {path_to_capacity,path_to_value,path_to_weight,path_to_opt_result};
+
+    for(int i = 0;i < args.size();i++){
+        ifstream inputFile(args[i]);
+        while(getline(inputFile,line)){
+            dataframe[i].push_back(stoi(line));
+        }
     }
-    return df;
 }
 
-void getValue_n_Weight(vector<vector<int>> knapsack_data){
-    for (int i = 0; i < knapsack_data.size();i++){
-        values.push_back(knapsack_data[i][0]);
-        weights.push_back(knapsack_data[i][1]);
+int isOpt_result(vector<int> itemSelected){
+    if (dataframe[3] == itemSelected){
+        return 1;
+    }else{
+        return 0;
     }
-}
-
-vector<int> split(string line, string delimeter){
-    vector<int> row;
-    while (line.find(delimeter) != string::npos){
-        row.push_back(stoi(line.substr(0,line.find(delimeter))));
-        line.erase(0,line.find(delimeter)+1);
-    }
-    row.push_back(stoi(line));
-    return row;
 }

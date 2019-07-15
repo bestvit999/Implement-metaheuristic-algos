@@ -27,7 +27,7 @@ int main(int argc,char * argv[]){
     srand(time(0)); // set a random seed
     
     // for output 'data.dat' file
-    outFile.open("data/dataset-hc.dat",ofstream::out);
+    outFile.open("data//output//onemax-hc.dat",ofstream::out);
 
     // read all arguments to *all_args*
     vector<string> all_args;
@@ -40,10 +40,14 @@ int main(int argc,char * argv[]){
     // init the bitstring, default is all zero
     // btw, it also can be set in random case
     vector<bool> onemax = initialization(bits);
-
     vector<bool> tmp;
+
+    // count for iterations
+    int iterations = 0;
+
     /* while iterations as known as SELECTION STAGE  */ 
     while ((eval(onemax) < bits) && _durations < durations){
+        iterations++;
         /* btw, we also can apply some aggrasive approach here */
         /* by multi-tweak at the same time, and pick up the highest eval(onemax) one */
         tmp = tweak(onemax,range);
@@ -58,7 +62,7 @@ int main(int argc,char * argv[]){
                 cout << onemax[i];
             }
             cout << ", one count is : " << eval(onemax) << endl;
-            outFile << ' ' << _durations << ' ' << eval(onemax) << '\n';
+            outFile << ' ' << iterations << ' ' << _durations << ' ' << eval(onemax) << '\n';
         }
 
         // use for controlling process duration limit
