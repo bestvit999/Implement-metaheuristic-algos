@@ -166,7 +166,7 @@ $ ./a.exe dataset1 10 5
 ### Diagram
 <img align="middle" width="100%" src="data\figure\knapsack-hc.png">
 
-## functionOpt Solving By Simulated Annealing
+# functionOpt Solving By Simulated Annealing
 
 The key feature of *Simulated Annealing* is that it provides a mechanism to escape local optima by allowing hill-climbing moves in hopes of finding a global optimum.
 
