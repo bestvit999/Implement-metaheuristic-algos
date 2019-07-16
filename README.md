@@ -198,11 +198,11 @@ and so the probalility is cose to 0. If <t> is high, the probability is close to
 > Execute by shell command
 ```
 $ g++ functionOpt-solving-by-SA.cpp
-$ ./a.exe {termperature} {duration limits} {neighborhood range} {tuneable alpha (cooling rate)}
+$ ./a.exe {termperature} {duration limits} {neighborhood range} {tuneable alpha (cooling rate)} {boundedscope_start} {boundedscope_end} {ideal solution}
 ```
 > e.g.
 ```
-$ ./a.exe 1000 10 0.5 0.8
+$ ./a.exe 1000 100 0.5 0.99 0 3 0.946745
 ```
 
 > It will be out put like
