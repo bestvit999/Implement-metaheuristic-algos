@@ -166,20 +166,20 @@ $ ./a.exe dataset1 10 5
 ### Diagram
 <img align="middle" width="100%" src="data\figure\knapsack-hc.png">
 
-# functionOpt Solving By Simulated Annealing
+# FunctionOpt Solving By Simulated Annealing
 
 The key feature of *Simulated Annealing* is that it provides a mechanism to escape local optima by allowing hill-climbing moves in hopes of finding a global optimum.
 
 > i.e., moves which worsen the objective value in a reasonable probability.
 
-## evaluate function in used
+## Objective function in used
 
-here we use the *f(x) = x * exp(-x) * sin(5*x) -2* as an example, Refer to the figure below.
+here we use the *f(x) = x * exp(-x) * sin(5*x) -2 as an example, Refer to the figure below.
 <img align="middle" width="100%" src="data\figure\SAsampleFunction.png">
 
 > and so, we'll got the global optimum point <X is near 0.940718, Y is near -2.36719>, by appling SA
 
-## how to escape from local optima
+## How to escape from *local optima*
 
 here is a abstraction about *acceptance probability*, is the basic search mechanism in *SA*.
 ```
