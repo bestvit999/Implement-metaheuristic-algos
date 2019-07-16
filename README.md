@@ -219,5 +219,5 @@ current X is : 0.947417, current Y is : -2.36724, bestX is :0.947417, minY is : 
 ```
 
 ### Diagram
-> *f(x) = x * exp(-x) * sin(5*x) -2*
+> *f(x) = x * exp(-x) * sin(5*x) -2
 <img align="middle" width="100%" src="data\figure\functionOpt-SA.png">
