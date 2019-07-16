@@ -62,7 +62,11 @@ The spirit of Exhaustive Search is very simple that consists of systematically e
 > Execute by shell command
 ```
 $ g++ onemax-solving-by-ES.cpp
-$ ./a.exe {bit size} {durations limits}
+$ ./a.exe {bit size} {duration limits}
+```
+> e.g.
+```
+$ ./a.exe 100 1000
 ```
 
 > It will be out put like
@@ -98,7 +102,11 @@ The spirit of Hill-Climbing is that you just iteratively test new candidate solu
 > Execute by shell command
 ```
 $ g++ onemax-solving-by-HC.cpp
-$ ./a.exe {bit size} {durations limits} {affect range}
+$ ./a.exe {bit size} {duration limits} {affect range}
+```
+> e.g.
+```
+$ ./a.exe 100 100 10
 ```
 
 > It will be out put like
@@ -133,6 +141,10 @@ The spirit of Hill Climbing is that you just iteratively test new candidate solu
 $ g++ knapsack-solving-by-HC.cpp
 $ ./a.exe {datasetFolder} {duration limits} {random range}
 ```
+> e.g.
+```
+$ ./a.exe dataset1 10 5
+```
 
 > It will be out put like
 ```
@@ -149,6 +161,65 @@ $ ./a.exe {datasetFolder} {duration limits} {random range}
 110110100110100100000111, value is : 13521334, weight is : 6392842, cp is : 2.11507
 > Tweak successed, duration :0.43853
 110111000110100100000111, value is : 13549094, weight is : 6402560, cp is : 2.1162
+```
+
+### Diagram
+<img align="middle" width="100%" src="data\figure\knapsack-hc.png">
+
+## functionOpt Solving By Simulated Annealing
+
+The key feature of *Simulated Annealing* is that it provides a mechanism to escape local optima by allowing hill-climbing moves in hopes of finding a global optimum.
+
+> i.e., moves which worsen the objective value in a reasonable probability.
+
+## evaluate function in used
+
+here we use the *f(x) = x * exp(-x) * sin(5*x) -2* as an example, Refer to the figure below.
+<img align="middle" width="100%" src="data\figure\SAsampleFunction.png">
+
+> and so, we'll got the global optimum point <X is near 0.940718, Y is near -2.36719>, by appling SA
+
+## how to escape from local optima
+
+here is a abstraction about *acceptance probability*, is the basic search mechanism in *SA*.
+```
+IF <tmp> isn't worse than <origin>, we'll still select <tmp> with a reasonable probability.
+We're doing a *random walk* in the space. Then <temperature> decreases slowly, eventually to 0, at which point the algorithm is doing nothing more than plain Hill-Climbing.
+
+    First thing, while <tmp> is much worse than <origin>, the fraction is larger,
+and so the probability is close to 0. If <tmp> is very close to <origin>, the probability
+is close to 1.
+
+    Second, we have a *tunable parameter <t>*. If <t> is close to 0, the fractions is larger,
+and so the probalility is cose to 0. If <t> is high, the probability is close to 1.
+```
+
+### Compile and Execute
+> Execute by shell command
+```
+$ g++ functionOpt-solving-by-SA.cpp
+$ ./a.exe {termperature} {duration limits} {neighborhood range} {tuneable alpha (cooling rate)}
+```
+> e.g.
+```
+$ ./a.exe 1000 10 0.5 0.8
+```
+
+> It will be out put like
+```
+...
+current X is : 0.190665, current Y is : -1.87153, minResult is :-2.36698temperature is :0.166154
+current X is : -0.21836, current Y is : -1.75892, minResult is :-2.36698temperature is :0.132923
+current X is : -0.21836, current Y is : -1.75892, minResult is :-2.36698temperature is :0.106338
+current X is : 0.238975, current Y is : -1.82496, minResult is :-2.36698temperature is :0.0850707
+current X is : 0.240578, current Y is : -1.82352, minResult is :-2.36698temperature is :0.0680565
+current X is : 0.240578, current Y is : -1.82352, minResult is :-2.36698temperature is :0.0544452
+current X is : 0.660161, current Y is : -2.05409, minResult is :-2.36698temperature is :0.0435562
+current X is : 0.660161, current Y is : -2.05409, minResult is :-2.36698temperature is :0.034845
+current X is : 0.660161, current Y is : -2.05409, minResult is :-2.36698temperature is :0.027876
+current X is : 0.660161, current Y is : -2.05409, minResult is :-2.36698temperature is :0.0223008
+current X is : 0.915372, current Y is : -2.36312, minResult is :-2.36698temperature is :0.0178406
+current X is : 0.861004, current Y is : -2.33419, minResult is :-2.36698temperature is :0.0142725
 ```
 
 ### Diagram
