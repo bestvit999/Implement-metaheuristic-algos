@@ -208,19 +208,15 @@ $ ./a.exe 1000 10 0.5 0.8
 > It will be out put like
 ```
 ...
-current X is : 0.190665, current Y is : -1.87153, minResult is :-2.36698temperature is :0.166154
-current X is : -0.21836, current Y is : -1.75892, minResult is :-2.36698temperature is :0.132923
-current X is : -0.21836, current Y is : -1.75892, minResult is :-2.36698temperature is :0.106338
-current X is : 0.238975, current Y is : -1.82496, minResult is :-2.36698temperature is :0.0850707
-current X is : 0.240578, current Y is : -1.82352, minResult is :-2.36698temperature is :0.0680565
-current X is : 0.240578, current Y is : -1.82352, minResult is :-2.36698temperature is :0.0544452
-current X is : 0.660161, current Y is : -2.05409, minResult is :-2.36698temperature is :0.0435562
-current X is : 0.660161, current Y is : -2.05409, minResult is :-2.36698temperature is :0.034845
-current X is : 0.660161, current Y is : -2.05409, minResult is :-2.36698temperature is :0.027876
-current X is : 0.660161, current Y is : -2.05409, minResult is :-2.36698temperature is :0.0223008
-current X is : 0.915372, current Y is : -2.36312, minResult is :-2.36698temperature is :0.0178406
-current X is : 0.861004, current Y is : -2.33419, minResult is :-2.36698temperature is :0.0142725
+current X is : 0.501007, current Y is : -1.81955, bestX is :0.940321, minY is : -2.36718, temperature is :145.197
+current X is : 0.722159, current Y is : -2.1586, bestX is :0.940321, minY is : -2.36718, temperature is :143.745
+current X is : 0.422117, current Y is : -1.76259, bestX is :0.940321, minY is : -2.36718, temperature is :142.307
+current X is : 0.804559, current Y is : -2.27764, bestX is :0.940321, minY is : -2.36718, temperature is :140.884
+current X is : 1.12041, current Y is : -2.23009, bestX is :0.940321, minY is : -2.36718, temperature is :139.476
+current X is : 1.16904, current Y is : -2.15403, bestX is :0.940321, minY is : -2.36718, temperature is :138.081
+current X is : 1.19588, current Y is : -2.10819, bestX is :0.940321, minY is : -2.36718, temperature is :136.7
+current X is : 0.947417, current Y is : -2.36724, bestX is :0.947417, minY is : -2.36724, temperature is :135.333
 ```
 
 ### Diagram
-<img align="middle" width="100%" src="data\figure\knapsack-hc.png">
+<img align="middle" width="100%" src="data\figure\functionOpt-SA.png">
