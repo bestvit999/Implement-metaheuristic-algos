@@ -2,7 +2,7 @@
 #include <ctime>
 #include <chrono>
 #include <cstdlib>
-#include <conio.h>
+#include <math.h>
 #include <vector>
 #include <fstream>
 
@@ -28,12 +28,12 @@ vector<int> weights;
 vector<int> opt_result;
 vector<vector<int>> dataframe = {capacity, values, weights, opt_result};
 
+/* acception probability */
+double probability(vector<int> tmp, vector<int> origin, double temperature);
+
 /* calculate the tweak duration */
 double _durations = 0.0;
 auto start = chrono::system_clock::now();
-
-// count iterations
-int iterations = 0;
 
 // for output file
 ofstream outFile;
@@ -48,9 +48,10 @@ int main(int argc, char *argv[])
     // path to dataset
     string base_path = "data//input//";
     string datasetFolder = all_args[0];
-
-    int durations = stoi(all_args[1]); // constraint variable
-    int range = stoi(all_args[2]);     // random size
+    double temperature = stod(all_args[1]);
+    int durations = stoi(all_args[2]); // constraint variable
+    int range = stoi(all_args[3]);     // random size
+    double alpha = stod(all_args[4]);
 
     // fetch knapsack data from giving dataset folder
     string path_to_dataset_folder = base_path + datasetFolder;
@@ -62,36 +63,51 @@ int main(int argc, char *argv[])
     vector<int> tmp;                             // R
 
     string path_to_output_folder = "data//output//";
-    string output_file = path_to_output_folder + "knapsack-hc.dat";
+    string output_file = path_to_output_folder + "knapsack-sa.dat";
 
     outFile.open(output_file);
 
-
+    // count iterations
+    int iterations = 0;
 
     /* while iterations as known as SELECTION STAGE  */
-    while (_durations < durations && !isOpt_result(best))
+    while (_durations < durations && !isOpt_result(best) && temperature - __DBL_EPSILON__ > 0)
     {
-        
+        iterations++;
 
         /* btw, we also can apply some aggrasive approach here */
         /* by multi-tweak at the same time, and pick up the highest eval(itemSelected) one */
         tmp = tweak(itemSelected, range);
 
         // find some tweak is better than older, then update it
-        if(evaluate_value(tmp) > evaluate_value(itemSelected) && evaluate_weight(tmp) < dataframe[0][0])
+        if (evaluate_value(tmp) > evaluate_value(itemSelected) && evaluate_weight(tmp) <= dataframe[0][0])
         {
             itemSelected = tmp;
         }
-
-        if(evaluate_value(itemSelected) > evaluate_value(best))
+        else if (evaluate_value(tmp) < evaluate_value(itemSelected) && evaluate_weight(tmp) <= dataframe[0][0])
         {
-            best = itemSelected;
-            for(int i =0;i<best.size();i++)
+            double randomNumber = double(rand()) / RAND_MAX;
+            double p = probability(tmp, itemSelected, temperature);
+            if (randomNumber < p)
             {
-                cout << best[i];
-                outFile << best[i];
+                itemSelected = tmp;
             }
-            cout << ", best value : " << evaluate_value(best) << ", iterations : " << iterations << ", durations : " << _durations << endl;
+        }
+
+        temperature *= alpha;
+
+        if (evaluate_value(itemSelected) > evaluate_value(best) && double(evaluate_weight(tmp))){
+            best = itemSelected;
+
+            
+            for (int i = 0; i < itemSelected.size(); i++)
+            {
+                outFile << itemSelected[i];
+                cout << itemSelected[i];
+            }
+
+            double cp = double(evaluate_value(best)) / double(evaluate_weight(best));
+            cout << ", best value : " << evaluate_value(best) << ", iterations : " << iterations << ", durations : " << _durations <<  ", temperature :" << temperature << endl;
             outFile << ' ' << evaluate_value(best) << ' ' << iterations << endl;
         }
 
@@ -119,16 +135,11 @@ vector<int> initialization()
 /* here we use the random search skill, it will tweak some portion of bitstring */
 vector<int> tweak(vector<int> origin, int range)
 {
-    vector<int> tmp = origin; // copy the origin bitstring, use for tweaking
-    // here we apply random skill to portion of bitstring
-    for (int i = 0; i < range; i++)
-    {
-        int index = rand() % tmp.size();
-        tmp[index] = rand() % 2; // cycled affect portion of bitstring
+    vector<int> tmp = origin;
+    for (int i = 0;i<range;i++){
+        int index = rand() % origin.size();
+        tmp[index] = rand() % 2;
     }
-
-    iterations++;
-
     return tmp;
 }
 
@@ -185,11 +196,16 @@ int isOpt_result(vector<int> itemSelected)
 {
     if (dataframe[3] == itemSelected)
     {
-        cout << "optima found!" << endl;
+        cout << "optima found!"<< endl;
         return 1;
     }
     else
     {
         return 0;
     }
+}
+
+double probability(vector<int> tmp, vector<int> origin, double temperature)
+{   
+    return exp((double(evaluate_value(tmp)) - double(evaluate_weight(origin))) / temperature);
 }
