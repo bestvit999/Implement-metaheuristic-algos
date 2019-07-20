@@ -5,6 +5,7 @@
 #include <conio.h>
 #include <vector>
 #include <fstream>
+#include <queue>
 
 using namespace std;
 
@@ -26,10 +27,50 @@ vector<int> capacity;
 vector<int> values;
 vector<int> weights;
 vector<int> opt_result;
+// 0->capacity,1->values,2->weights,3->opt_result
+// each type of dataframe's element is a vector<int>
 vector<vector<int>> dataframe = {capacity, values, weights, opt_result};
 
+/* calculate the tweak duration */
+double _durations = 0.0;
+auto start = chrono::system_clock::now();
 
+// count iterations
+int iterations = 0;
 
+// for output file
+ofstream outFile;
+
+/* Tabu List */
+vector<vector<int>> tabuList; // implement as FIFO queue
+class Tabu
+{
+public:
+    void enqueue(vector<int> tmp)
+    {
+        tabuList.push_back(tmp);
+    }
+
+    void dequeue()
+    {
+        tabuList.erase(tabuList.begin());
+    }
+    int is_member(vector<int> tmp)
+    {
+        for (int i = 0; i < tabuList.size(); i++)
+        {
+            if (tabuList[i] == tmp)
+            {
+                return 1;
+            }
+        }
+        return 0;
+    }
+    int size()
+    {
+        return tabuList.size();
+    }
+};
 
 int main(int argc, char *argv[])
 {
@@ -44,6 +85,7 @@ int main(int argc, char *argv[])
 
     int durations = stoi(all_args[1]); // constraint variable
     int range = stoi(all_args[2]);     // random size
+    int MAXSIZEofTL = stoi(all_args[3]);
 
     // fetch knapsack data from giving dataset folder
     string path_to_dataset_folder = base_path + datasetFolder;
@@ -53,45 +95,59 @@ int main(int argc, char *argv[])
     vector<int> itemSelected = initialization(); // S
     vector<int> best = itemSelected;             // Best
     vector<int> tmp;                             // R
+    vector<int> ttmp;                            // W
 
-    // for output file
-    ofstream outFile;
     string path_to_output_folder = "data//output//";
-    string output_file = path_to_output_folder + "knapsack-hc.dat";
+    string output_file = path_to_output_folder + "knapsack-ts.dat";
+
     outFile.open(output_file);
 
-    // count for iteration
+    // count for iterations
     int iterations = 0;
-    double _durations = 0.0;
-    
-    auto start = chrono::system_clock::now();
 
+    // tabuList
+    Tabu tabu;
     /* while iterations as known as SELECTION STAGE  */
     while (_durations < durations && !isOpt_result(best))
     {
         iterations++;
-
-        /* btw, we also can apply some aggrasive approach here */
-        /* by multi-tweak at the same time, and pick up the highest eval(itemSelected) one */
-        tmp = tweak(itemSelected, range);
-
-        // find some tweak is better than older, then update it
-        if(evaluate_value(tmp) > evaluate_value(itemSelected) && evaluate_weight(tmp) < dataframe[0][0])
+        if (tabu.size() >= MAXSIZEofTL)
         {
-            itemSelected = tmp;
+            tabu.dequeue();
         }
 
-        if(evaluate_value(itemSelected) > evaluate_value(best))
+        // candidate
+        tmp = tweak(itemSelected, range);
+
+        // find the better candidate in neighborhood from <S>
+        // at the same time, exclude the neighbor that in <Tabu>
+        for (int i = 0; i < range; i++)
+        {
+            ttmp = tweak(itemSelected, range);
+            if (!tabu.is_member(ttmp) && (evaluate_value(ttmp) > evaluate_value(tmp) || tabu.is_member(tmp)) && evaluate_weight(ttmp) <= dataframe[0][0])
+            {
+                tmp = ttmp;
+            }
+        }
+
+        if (!tabu.is_member(tmp) && evaluate_weight(tmp) <= dataframe[0][0])
+        {
+            itemSelected = tmp;
+            tabu.enqueue(tmp);
+        }
+
+        if (evaluate_value(itemSelected) > evaluate_value(best))
         {
             best = itemSelected;
-            for (int i = 0;i<best.size();i++){
+
+            for (int i = 0;i < best.size();i++){
                 cout << best[i];
                 outFile << best[i];
             }
-            cout << ", best value : " << evaluate_value(best) << ", iteration : " << iterations << ", duration : " << _durations << endl;
-            outFile << ' ' <<evaluate_value(best) << ' ' << iterations << endl;
+            cout << ", value :" << evaluate_value(best) << ", weight :" << evaluate_weight(best) << ", tabu size : " << tabu.size() << ", iteration : " << iterations << endl;
+            outFile << ' ' << evaluate_value(best) << ' ' << iterations << endl;
         }
-        
+
         // use for controlling process duration limit
         auto end = chrono::system_clock::now();
         chrono::duration<double> durations = end - start;
@@ -123,6 +179,9 @@ vector<int> tweak(vector<int> origin, int range)
         int index = rand() % tmp.size();
         tmp[index] = rand() % 2; // cycled affect portion of bitstring
     }
+
+    iterations++;
+
     return tmp;
 }
 

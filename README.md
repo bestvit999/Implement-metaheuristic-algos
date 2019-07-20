@@ -1,4 +1,4 @@
-# Metaheuristics-Algorithm
+# Metaheuristics-Algoritm
 
 ## There are *FOUR MAIN STAGE*, we have some algorithm below
 
@@ -39,6 +39,7 @@
 
 
 # Description for ONE-MAX problem
+
 
 The Max One problem is a very simple problem where evolution is used to find a *specific binary string*
 
