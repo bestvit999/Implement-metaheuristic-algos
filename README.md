@@ -241,7 +241,7 @@ $ ./a.exe {datasetFolder} {temperature} {duration limits} {random range} {tuneab
 ```
 > e.g.
 ```
-$ ./a.exe dataset1 5000 20 5 0.999
+$ ./a.exe dataset1 20000 20 5 0.999
 ```
 
 > It will be out put like
@@ -260,7 +260,7 @@ $ ./a.exe dataset1 5000 20 5 0.999
 ```
 
 ### Diagram
-<img align="middle" width="100%" src="data\figure\knapsack-Compare1.png">
 > full view
-<img align="middle" width="100%" src="data\figure\knapsack-Compare2.png">
+<img align="middle" width="100%" src="data\figure\knapsack-Compare1.png">
 > zoom in view
+<img align="middle" width="100%" src="data\figure\knapsack-Compare2.png">
