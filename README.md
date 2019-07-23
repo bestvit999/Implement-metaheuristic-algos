@@ -247,16 +247,20 @@ $ ./a.exe dataset1 5000 20 5 0.999
 > It will be out put like
 ```
 ...
-current X is : 0.501007, current Y is : -1.81955, bestX is :0.940321, minY is : -2.36718, temperature is :145.197
-current X is : 0.722159, current Y is : -2.1586, bestX is :0.940321, minY is : -2.36718, temperature is :143.745
-current X is : 0.422117, current Y is : -1.76259, bestX is :0.940321, minY is : -2.36718, temperature is :142.307
-current X is : 0.804559, current Y is : -2.27764, bestX is :0.940321, minY is : -2.36718, temperature is :140.884
-current X is : 1.12041, current Y is : -2.23009, bestX is :0.940321, minY is : -2.36718, temperature is :139.476
-current X is : 1.16904, current Y is : -2.15403, bestX is :0.940321, minY is : -2.36718, temperature is :138.081
-current X is : 1.19588, current Y is : -2.10819, bestX is :0.940321, minY is : -2.36718, temperature is :136.7
-current X is : 0.947417, current Y is : -2.36724, bestX is :0.947417, minY is : -2.36724, temperature is :135.333
+001100010011111000001011, best value : 12654292, iterations : 9, durations : 0.023168, temperature :19820.7
+100011001001101110101100, best value : 12849751, iterations : 93, durations : 0.025184, temperature :18223
+010001101100110110001111, best value : 13056617, iterations : 106, durations : 0.035879, temperature :17987.5
+010101001100100110001111, best value : 13191085, iterations : 109, durations : 0.039873, temperature :17933.6
+010110001110100000100100, best value : 13228738, iterations : 1730, durations : 0.047873, temperature :3542.62
+110111110110000110000001, best value : 13294248, iterations : 4597, durations : 0.06772, temperature :201.177
+110111000110000110011011, best value : 13361602, iterations : 8808, durations : 0.090374, temperature :2.97749
+110100101110100100010100, best value : 13487268, iterations : 47492, durations : 0.236987, temperature :0.000130569
+110101101110100100000100, best value : 13518963, iterations : 149690, durations : 0.618437, temperature :5.37339e-009
+110111000110100100000111, best value : 13549094, iterations : 1389810, durations : 5.1407, temperature :7.08699e-014
 ```
 
 ### Diagram
 <img align="middle" width="100%" src="data\figure\knapsack-Compare1.png">
+> full view
 <img align="middle" width="100%" src="data\figure\knapsack-Compare2.png">
+> zoom in view
