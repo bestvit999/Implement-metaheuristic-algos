@@ -222,3 +222,41 @@ current X is : 0.947417, current Y is : -2.36724, bestX is :0.947417, minY is : 
 ### Diagram
 > *f(x) = x * exp(-x) * sin(5*x) -2
 <img align="middle" width="100%" src="data\figure\functionOpt-SA.png">
+
+# 01-Knapsack Solving By Simulated Annealing
+
+The key feature of *Simulated Annealing* is that it provides a mechanism to escape local optima by allowing hill-climbing moves in hopes of finding a global optimum.
+
+> i.e., moves which worsen the objective value in a reasonable probability.
+
+## Objective function in used
+
+f(x) = calculate the seleted item total value
+
+### Compile and Execute
+> Execute by shell command
+```
+$ g++ knapsack-solving-by-SA.cpp
+$ ./a.exe {datasetFolder} {temperature} {duration limits} {random range} {tuneable alpha (cooling rate)}
+```
+> e.g.
+```
+$ ./a.exe dataset1 5000 20 5 0.999
+```
+
+> It will be out put like
+```
+...
+current X is : 0.501007, current Y is : -1.81955, bestX is :0.940321, minY is : -2.36718, temperature is :145.197
+current X is : 0.722159, current Y is : -2.1586, bestX is :0.940321, minY is : -2.36718, temperature is :143.745
+current X is : 0.422117, current Y is : -1.76259, bestX is :0.940321, minY is : -2.36718, temperature is :142.307
+current X is : 0.804559, current Y is : -2.27764, bestX is :0.940321, minY is : -2.36718, temperature is :140.884
+current X is : 1.12041, current Y is : -2.23009, bestX is :0.940321, minY is : -2.36718, temperature is :139.476
+current X is : 1.16904, current Y is : -2.15403, bestX is :0.940321, minY is : -2.36718, temperature is :138.081
+current X is : 1.19588, current Y is : -2.10819, bestX is :0.940321, minY is : -2.36718, temperature is :136.7
+current X is : 0.947417, current Y is : -2.36724, bestX is :0.947417, minY is : -2.36724, temperature is :135.333
+```
+
+### Diagram
+<img align="middle" width="100%" src="data\figure\knapsack-Compare1.png">
+<img align="middle" width="100%" src="data\figure\knapsack-Compare2.png">

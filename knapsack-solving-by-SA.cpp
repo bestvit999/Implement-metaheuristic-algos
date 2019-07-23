@@ -69,6 +69,7 @@ int main(int argc, char *argv[])
 
     // count iterations
     int iterations = 0;
+    int consecutivenotfound = 0;
 
     /* while iterations as known as SELECTION STAGE  */
     while (_durations < durations && !isOpt_result(best) && temperature - __DBL_EPSILON__ > 0)
@@ -96,9 +97,13 @@ int main(int argc, char *argv[])
 
         temperature *= alpha;
 
+        if (consecutivenotfound > 10000){
+            temperature *= 1.001;
+        }
+
         if (evaluate_value(itemSelected) > evaluate_value(best) && double(evaluate_weight(tmp))){
             best = itemSelected;
-
+            consecutivenotfound = 0;
             
             for (int i = 0; i < itemSelected.size(); i++)
             {
@@ -109,6 +114,8 @@ int main(int argc, char *argv[])
             double cp = double(evaluate_value(best)) / double(evaluate_weight(best));
             cout << ", best value : " << evaluate_value(best) << ", iterations : " << iterations << ", durations : " << _durations <<  ", temperature :" << temperature << endl;
             outFile << ' ' << evaluate_value(best) << ' ' << iterations << endl;
+        }else{
+            consecutivenotfound++;
         }
 
         // use for controlling process duration limit
