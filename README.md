@@ -261,6 +261,8 @@ $ ./a.exe dataset1 20000 20 5 0.999
 
 ### Diagram
 > full view
+
 <img align="middle" width="100%" src="data\figure\knapsack-Compare1.png">
 > zoom in view
+
 <img align="middle" width="100%" src="data\figure\knapsack-Compare2.png">
