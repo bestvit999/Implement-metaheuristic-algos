@@ -2,7 +2,6 @@
 #include <ctime>
 #include <chrono>
 #include <cstdlib>
-#include <conio.h>
 #include <vector>
 #include <fstream>
 #include <queue>

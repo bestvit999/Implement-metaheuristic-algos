@@ -39,7 +39,7 @@
 <a name="2"/>
 
 # Flow Chart
-<img align="middle" width="50%" src="data\figure\flowChart.PNG">
+<img align="middle" height="50%" src="data\figure\flowChart.PNG">
 
 <a name="3"/>
 
@@ -49,7 +49,7 @@
 <a name="4"/>
 
 # Sequence Diagram
-<img align="middle" width="100%" src="data\figure\sequenceDiagram.png">
+<img align="middle" width="100%" src="data\figure\sequenceDiagram.PNG">
 
 <a name="5"/>
 
