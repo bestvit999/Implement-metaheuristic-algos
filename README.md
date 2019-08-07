@@ -11,7 +11,8 @@
     * [Simulated Annealing](#8)
         * [How to escape from local optima](#9)
 
-# There are *THREE MAIN STAGE* <a name="1"/>
+<a name="1"/>
+# There are *THREE MAIN STAGE*
 
 * Transite
     ```
@@ -34,24 +35,33 @@
     ```
     
 
-
-# Flow Chart <a name="2"/>
+<a name="2"/>
+# Flow Chart
 <img align="middle" width="50%" src="data\figure\flowChart.PNG">
 
-# Class Diagram <a name="3"/>
-<img align="middle" width="50%" src="data\figure\classDiagram.png">
+<a name="3"/>
+# Class Diagram
+<img align="middle" width="100%" src="data\figure\classDiagram.png">
 
-# Sequence Diagram <a name="4"/>
-<img align="middle" width="50%" src="data\figure\sequenceDiagram">
+<a name="4"/>
+# Sequence Diagram
+<img align="middle" width="100%" src="data\figure\sequenceDiagram">
 
-# Problem <a name="5"/>
-## 01-Knapsack <a name="6"/>
+<a name="5"/>
+# Problem
 
-# Search Algorithm <a name="7"/>
-## Simulated Annealing <a name="8"/>
+<a name="6"/>
+## 01-Knapsack
+
+<a name="7"/>
+# Search Algorithm
+
+<a name="8"/>
+## Simulated Annealing
 The key feature of Simulated Annealing is that it provides a mechanism to escape local optima by allowing hill-climbing moves in hopes of finding a global optimum.
 
-### How to escape from local optima <a name="9"/>
+<a name="9"/>
+### How to escape from local optima
 here is a abstraction about acceptance probability, is the basic search mechanism in SA.
 
 ```
