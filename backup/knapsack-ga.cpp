@@ -39,7 +39,7 @@ int main(int argc, char *argv[])
 {   
     srand(time(NULL));
 
-    fetchFile("data//input//dataset1");
+    fetchFile("data//input//dataset3");
     vector<vector<int>> population = initialization(20); // popsize = 20;
     vector<int> best; // best individual
     int generations = 0;
@@ -51,16 +51,23 @@ int main(int argc, char *argv[])
     vector<int> c1;
     vector<int> c2;
 
+
     while(!isOpt_result(best)){
+
         for(int i = 0;i < 20;i++){
+            // for (int j = 0;j < population[i].size();j++){
+            //     cout << population[i][j];
+            // }
             if (evaluate_value(population[i]) > evaluate_value(best) && evaluate_weight(population[i]) <= dataframe[0][0]){
                 best = population[i];
-                for (int i = 0;i < best.size();i++){
-                    cout << best[i];
-                }
-                cout << ' ' << evaluate_value(best) << ' ' << generations << endl;
+                // for (int i = 0;i < best.size();i++){
+                //     cout << best[i];
+                // }
+                // cout << ' ' << evaluate_value(best) << ' ' << generations << endl;
             }
+            cout << ' ';
         }
+        cout << endl;
 
         for (int i = 0;i < 10;i++){
             /* A. SELECTION */
@@ -81,16 +88,9 @@ int main(int argc, char *argv[])
             cpopulation.push_back(mutate(c2));
         }
 
-        /* D. gnuplot cpopulation */
-        outfile.open("population.dat");
-        for(int i = 0;i < cpopulation.size();i++){
-            for (int j = 0;j < cpopulation[i].size();j++){
-                outfile << cpopulation[i][j];
-            }
-            outfile << ' ' << evaluate_value(cpopulation[i]) << endl;
-        }
-        
         population = cpopulation; // replace the old population
+
+        cout << '\r' << generations;
         generations++;
 
         cpopulation.clear();
