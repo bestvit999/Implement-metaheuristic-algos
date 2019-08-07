@@ -49,7 +49,7 @@
 <a name="4"/>
 
 # Sequence Diagram
-<img align="middle" width="100%" src="data\figure\sequenceDiagram">
+<img align="middle" width="100%" src="data\figure\sequenceDiagram.png">
 
 <a name="5"/>
 
