@@ -11,19 +11,18 @@ int sequence = 1;
 
 /* MAIN SECTION */
 /* 01-kanp with SA */
-void SA::run(Knap *prob_ptr)
+void SA::run(Knap *knap_ptr)
 {
     ofstream output;
     string path_to_outfile = "data/output/knap-sa/" + to_string(sequence) + ".txt";
-    // cout << path_to_outfile << endl;
 
     output.open(path_to_outfile);
 
     numberOfEvaluation = 0;
 
     double _temperature = temperature;
-    this->knap_ptr = prob_ptr;
 
+    this->knap_ptr = knap_ptr;
     int capcity = knap_ptr->getCapacity();
     vector<int> values = knap_ptr->getValues();
     vector<int> weights = knap_ptr->getWeihgts();

@@ -35,6 +35,53 @@ public:
 #endif
 
 //=====================================//
+//           Algo TS Section          //
+//===================================//
+#ifndef ALGOTS_H
+#define ALGOTS_H
+class Prob;
+class Knap;
+class Tabu;
+
+class TS : public Algo
+{
+private:
+    Tabu *tabu;
+    int random_range;
+    Knap *knap_ptr;
+public:
+    TS(Tabu *tabu);
+
+public:
+    void run(Knap *knap_ptr);
+
+public:
+    solution mutate(solution origin);   // T
+    double fitness(solution candidate);                   // E
+    double fitness_Weight(solution candidate);            // E
+    void determine(solution candidate, solution &origin); // D
+public:
+    void setRandomRange(int random_range);
+    int getRandomRange();
+};
+
+class Tabu
+{
+private:
+    vector<solution> tabuList;
+    int maxsize;
+public:
+    Tabu(int tabusize);
+public:
+    void enqueue(solution candidate);
+    void dequeue();
+    int is_member(solution candidate);
+    int size();
+    int getMaxsize();
+};
+#endif
+
+//=====================================//
 //           Algo SA Section          //
 //===================================//
 #ifndef ALGOSA_H
@@ -49,7 +96,7 @@ private:
     Knap *knap_ptr;
     int random_range; // for mutate
 public:
-    SA(double temperature,double alpha);
+    SA(double temperature, double alpha);
 
 public:
     void run(Prob *prob_ptr);
@@ -99,7 +146,6 @@ public:
     double summation(population population);
     vector<solution> recombination(vector<solution> parents); // crossingover the genes
     void crossingover(solution &chromosome1, solution &chromesome2, int index);
-
 
 public:
     int getRandomRange();

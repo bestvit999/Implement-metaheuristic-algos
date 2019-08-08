@@ -1,4 +1,7 @@
-all:knap-sa knap-ga
+all:knap-sa knap-ga knap-ts
+
+knap-ts: main-knap-ts.o TS.o knap.o header.o
+	g++ main-knap-ts.o TS.o knap.o header.o -o knap-ts
 
 knap-sa: main-knap-sa.o SA.o knap.o header.o
 	g++ main-knap-sa.o SA.o knap.o header.o -o knap-sa
@@ -17,6 +20,9 @@ SA.o: SA.cpp
 
 GA.o: GA.cpp
 	g++ -c GA.cpp
+
+TS.o: TS.cpp
+	g++ -c TS.cpp
 
 knap.o: knap.cpp
 	g++ -c knap.cpp
