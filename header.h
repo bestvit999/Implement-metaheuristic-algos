@@ -45,10 +45,11 @@ class SA : public Algo
 {
 private:
     double temperature;
+    double alpha;
     Knap *knap_ptr;
     int random_range; // for mutate
 public:
-    SA(double temperature);
+    SA(double temperature,double alpha);
 
 public:
     void run(Prob *prob_ptr);
@@ -98,6 +99,7 @@ public:
     double summation(population population);
     vector<solution> recombination(vector<solution> parents); // crossingover the genes
     void crossingover(solution &chromosome1, solution &chromesome2, int index);
+
 
 public:
     int getRandomRange();

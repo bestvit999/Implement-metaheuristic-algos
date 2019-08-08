@@ -6,14 +6,19 @@ void showResult(vector<int> iterList);
 
 int main(int argc, char *argv[])
 {
+    srand(time(0));
+
     /* assign the arguments */
     string path_to_folder = argv[1];
     int runs = atoi(argv[2]);
-    int random_range = atoi(argv[3]);
+    double temperature = atof(argv[3]);
+    double alpha = atof(argv[4]);
+
+    int random_range = 5; // default 5
 
     /* construct the Prob and SearchAlgo object */
     Knap *knap_ptr = new Knap(path_to_folder);
-    SA *sa_ptr = new SA(100000);
+    SA *sa_ptr = new SA(temperature,alpha);
     sa_ptr->setRandomRange(random_range);
 
     /* show prob information */

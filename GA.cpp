@@ -2,14 +2,22 @@
 
 GA::GA(int popsize) { this->popsize = popsize; }
 
+
+int numberOfEvaluation;
+int sequence = 1;
+ofstream output;
+
 /* 
  * MAIN SECTION
  * 01-kanp with SA
  */
 void GA::run(Knap *prob_ptr)
 {
-    /* declaration */
-    srand(time(0));
+    
+    string path_to_outfile = "data/output/knap-ga/" + to_string(sequence) + ".txt";
+    output.open(path_to_outfile);
+    numberOfEvaluation = 0;
+
     this->knap_ptr = prob_ptr;
 
     int capcity = knap_ptr->getCapacity();
@@ -24,7 +32,6 @@ void GA::run(Knap *prob_ptr)
     vector<solution> parents;
     vector<solution> childs;
 
-    int generation = 0;
     /* MAIN SECTION */
     while (best != opt)
     {
@@ -42,14 +49,22 @@ void GA::run(Knap *prob_ptr)
         pop = cpop;   // replace the formor generation
         cpop.clear(); // remember to clear the cpop
 
-        generation++;
+        output << numberOfEvaluation << ' ' << fitness(best) << endl;
     }
 
-    knap_ptr->setIteration(generation);
+    knap_ptr->setIteration(numberOfEvaluation);
 
-    cout << "opt found! > ";
-    showSolution(best);
-    cout << endl;
+    if (best == opt){
+        cout << "opt found! > ";
+        showSolution(best);
+        cout << endl;
+    }
+
+    output.close();
+
+    knap_ptr->setIteration(numberOfEvaluation);
+
+    sequence++;
 }
 
 /*
@@ -82,6 +97,8 @@ double GA::fitness(solution individual)
             fitness += double(knap_ptr->getValues()[i]);
         }
     }
+
+    numberOfEvaluation++;
     return fitness;
 }
 

@@ -1,16 +1,26 @@
 #include "header.h"
 
-SA::SA(double temperature)
+SA::SA(double temperature,double alpha)
 {
     this->temperature = temperature;
+    this->alpha = alpha;
 }
+
+int numberOfEvaluation;
+int sequence = 1;
 
 /* MAIN SECTION */
 /* 01-kanp with SA */
 void SA::run(Knap *prob_ptr)
 {
+    ofstream output;
+    string path_to_outfile = "data/output/knap-sa/" + to_string(sequence) + ".txt";
+    // cout << path_to_outfile << endl;
 
-    srand(time(0));
+    output.open(path_to_outfile);
+
+    numberOfEvaluation = 0;
+
     double _temperature = temperature;
     this->knap_ptr = prob_ptr;
 
@@ -23,28 +33,36 @@ void SA::run(Knap *prob_ptr)
     solution best = origin;
     solution tmp;
 
-    int iter = 0;
+
     while (best != opt && _temperature > __DBL_EPSILON__)
     {
         tmp = mutate(origin, random_range); // T
         determine(tmp, origin);             // ED
 
-        _temperature *= 0.999; // decrease t
+        _temperature *= alpha; // decrease t
 
         if (fitness(origin) > fitness(best))
         {
             best = origin;
         }
-        iter++;
+
+        output << numberOfEvaluation << ' ' << fitness(best) << endl;
+        
     }
 
     if (best == opt)
     {
         cout << '\n';
-        cout << "opt found!" << endl;
+        cout << "opt found! > " << endl;
+        showSolution(best);
+        cout << endl;
     }
 
-    knap_ptr->setIteration(iter);
+    output.close();
+
+    knap_ptr->setIteration(numberOfEvaluation);
+
+    sequence++;
 }
 
 /*
@@ -83,6 +101,7 @@ double SA::fitness(solution candidate)
             fitness += double(knap_ptr->getValues()[i]);
         }
     }
+    numberOfEvaluation++;
     return fitness;
 }
 // E-weight

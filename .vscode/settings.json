@@ -13,6 +13,8 @@
         "algorithm": "cpp",
         "ostream": "cpp",
         "numeric": "cpp",
-        "cstdlib": "cpp"
+        "cstdlib": "cpp",
+        "iosfwd": "cpp",
+        "string": "cpp"
     }
 }
