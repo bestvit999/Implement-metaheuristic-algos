@@ -34,4 +34,4 @@ plot:
 	gnuplot figure.plt
 
 clear:
-	rm *.o knap-sa knap-ga
+	rm *.o knap-sa knap-ga knap-ts figure.plt
