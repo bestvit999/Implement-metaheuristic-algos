@@ -54,7 +54,7 @@ void Knap::showAllmember()
 
 void Knap::showCandidate()
 {
-    cout << "init candidate : ";
+    cout << "best candidate : ";
     for (int i = 0; i < candidate.size(); i++)
     {
         cout << candidate[i] << ' ';
@@ -68,5 +68,6 @@ vector<int> Knap::getValues() { return values; }
 vector<int> Knap::getWeihgts() { return weihgts; }
 vector<int> Knap::getOpt() { return opt; }
 solution Knap::getCandidate() { return candidate; }
-void Knap::setCandidate(solution _candidate) { candidate = _candidate; }
+solution Knap::getBest(){ return best; }
+void Knap::setBest(solution _candidate) { best = _candidate; }
 void Knap::setIteration(int iter) { iterations = iter; }

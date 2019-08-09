@@ -49,6 +49,7 @@ private:
     Tabu *tabu;
     int random_range;
     Knap *knap_ptr;
+
 public:
     TS(Tabu *tabu);
 
@@ -56,7 +57,7 @@ public:
     void run(Knap *knap_ptr);
 
 public:
-    solution mutate(solution origin);   // T
+    solution mutate(solution origin);                     // T
     double fitness(solution candidate);                   // E
     double fitness_Weight(solution candidate);            // E
     void determine(solution candidate, solution &origin); // D
@@ -70,8 +71,10 @@ class Tabu
 private:
     vector<solution> tabuList;
     int maxsize;
+
 public:
     Tabu(int tabusize);
+
 public:
     void enqueue(solution candidate);
     void dequeue();
@@ -124,7 +127,8 @@ class GA : public Algo
 private:
     int popsize;
     Knap *knap_ptr;
-    int random_range; // for mutate
+    int random_range;    // for mutate
+    int selectionMethod; // selection method chosen
 public:
     GA(int popsize);
 
@@ -137,9 +141,11 @@ public:
     double fitness_weight(solution individaul);       // E
     void determine(population pop, solution &origin); // D
 public:
-    population init(int popsize);                         // init the base-generation
-    vector<solution> selectParent(population population); // select two better parents in the generation
-    vector<double> cumulateSum(population population);    // select parents scheme, in order to increase Diversity
+    population init(int popsize);                           // init the base-generation
+    vector<solution> selectParent_T(population pop);        // select two better parents with *Tournament Selection*
+    solution tournament(population pop, int tsize);         // select parents scheme, in order to have more accurately to choose parent
+    vector<solution> selectParent_R(population population); // select two better parents with *Roulette Wheel*
+    vector<double> cumulateSum(population population);      // select parents scheme, in order to increase Diversity
     solution rouletteWheel(population pop, vector<double> cumsum);
     int partition(population arr, int front, int end);
     void quickSort(population arr, int front, int end);
@@ -150,6 +156,7 @@ public:
 public:
     int getRandomRange();
     void setRandomRange(int random_range);
+    void setSelectionMethod(int method);
 };
 #endif
 
@@ -175,13 +182,13 @@ class Knap : public Prob
 public:
     Knap(string path_to_folder);
     int iterations;
-
 private:
     int capacity;
     vector<int> values;
     vector<int> weihgts;
     vector<int> opt;
     solution candidate;
+    solution best;
 
 public:
     void run(Algo *algo_ptr);
@@ -192,7 +199,8 @@ public:
     vector<int> getWeihgts();
     vector<int> getOpt();
     solution getCandidate();
-    void setCandidate(solution candidate);
+    solution getBest();
+    void setBest(solution best);
     void setIteration(int iter);
 };
 #endif

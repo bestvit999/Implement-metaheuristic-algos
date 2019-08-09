@@ -1,5 +1,7 @@
 #include "header.h"
 #include <numeric>
+#include <algorithm>
+
 using namespace std;
 
 void showResult(vector<int> iterList);
@@ -22,21 +24,20 @@ int main(int argc, char *argv[])
     ts_ptr->setRandomRange(random_range);
 
     /* show prob information */
+    cout << "==Knap-TS==" << endl;
     knap_ptr->showAllmember(); // list knapsack information
-    knap_ptr->showCandidate();
-    cout << "-- -- -- --" << endl;
 
     /* do several times */
     vector<int> iterList;
     for (int i = 0; i < runs; i++)
     {
         knap_ptr->run(ts_ptr);
-        cout << "=" << endl;
-
         iterList.push_back(knap_ptr->iterations);
     }
 
     showResult(iterList);
+    showSolution(knap_ptr->getBest());
+    cout << "\n===========" << endl;
 
     /* Remark : remember to delete useless ptr */
     delete ts_ptr;
@@ -46,8 +47,8 @@ int main(int argc, char *argv[])
 void showResult(vector<int> iterList)
 {
 
-    int maxIndex = max_element(iterList.begin(),iterList.end()) - iterList.begin() + 1;
-    int minIndex = min_element(iterList.begin(),iterList.end()) - iterList.begin() + 1;
+    int maxIndex = max_element(iterList.begin(), iterList.end()) - iterList.begin() + 1;
+    int minIndex = min_element(iterList.begin(), iterList.end()) - iterList.begin() + 1;
 
     int max = *max_element(iterList.begin(), iterList.end()); // `*` before max_element that is because ´max_element´ returns an iterator
     int min = *min_element(iterList.begin(), iterList.end());
@@ -58,9 +59,9 @@ void showResult(vector<int> iterList)
     cout << "avg : " << avg << endl;
 
     // for gnuplot the <index of output data>
-    string command1 = "sed -i '' 's/$mints/";
+    string command1 = "sed -i 's/$mints/";
     string command2 = "/g' figure.plt";
-    string command = command1 + to_string(maxIndex) + command2;
+    string command = command1 + to_string(minIndex) + command2;
     char const *ptr = command.c_str();
     system(ptr);
 }

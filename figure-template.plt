@@ -1,3 +1,4 @@
+set xtics rotate by -45
 set xlabel "number of evaluation"
 set ylabel "objective value"
 set term png

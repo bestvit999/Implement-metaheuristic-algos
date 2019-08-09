@@ -49,17 +49,11 @@ void SA::run(Knap *knap_ptr)
         
     }
 
-    if (best == opt)
-    {
-        cout << '\n';
-        cout << "opt found! > " << endl;
-        showSolution(best);
-        cout << endl;
-    }
-
     output.close();
 
     knap_ptr->setIteration(numberOfEvaluation);
+
+    knap_ptr->setBest(best);
 
     sequence++;
 }

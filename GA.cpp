@@ -33,13 +33,18 @@ void GA::run(Knap *prob_ptr)
     vector<solution> childs;
 
     /* MAIN SECTION */
-    while (best != opt)
+    while (best != opt && numberOfEvaluation < 20000)
     {
         determine(pop,best);
 
         for (int i = 0; i < popsize / 2; i++)
         {
-            parents = selectParent(pop); // select two parents to recombine the genes
+            // select two parents to recombine the genes
+            if (selectionMethod == 0){
+                parents = selectParent_T(pop); // tournament
+            }else{
+                parents = selectParent_R(pop); // roulette wheel
+            }
             childs = recombination(parents);
 
             cpop.push_back(mutate(childs[0])); // join the childs to next generation (cpop)
@@ -52,17 +57,11 @@ void GA::run(Knap *prob_ptr)
         output << numberOfEvaluation << ' ' << fitness(best) << endl;
     }
 
-    knap_ptr->setIteration(numberOfEvaluation);
-
-    if (best == opt){
-        cout << "opt found! > ";
-        showSolution(best);
-        cout << endl;
-    }
-
     output.close();
 
     knap_ptr->setIteration(numberOfEvaluation);
+
+    knap_ptr->setBest(best);
 
     sequence++;
 }
@@ -120,11 +119,6 @@ void GA::determine(population pop, solution &origin)
     for (int i = 0;i<popsize;i++){
         if (fitness(pop[i]) > fitness(origin) && fitness_weight(pop[i]) <= knap_ptr->getCapacity()){
             origin = pop[i];
-            cout << "cadidate : ";
-            for(int j = 0;j < origin.size();j++){
-                cout << origin[j];
-            }
-            cout << ", fitness : " << fitness(origin) << endl;
         }
     }
 }
@@ -146,7 +140,35 @@ population GA::init(int popsize)
     return population;
 }
 
-vector<solution> GA::selectParent(population pop)
+// *tournament selection*
+vector<solution> GA::selectParent_T(population pop){
+    int tsize = 2; //default
+
+    vector<solution> parents;
+
+    parents.push_back(tournament(pop,tsize));
+    parents.push_back(tournament(pop,tsize));
+
+    return parents;
+}
+
+solution GA::tournament(population pop, int tsize){
+    int index = rand() % pop.size();
+    solution winner = pop[index]; // random pick from population
+    solution competitor;
+
+    for (int i = 0;i < tsize;i++){
+        index = rand() % pop.size();
+        competitor = pop[index];
+        if (fitness(competitor) > fitness(winner)){
+            winner = competitor;
+        }
+    }
+
+    return winner;
+}
+
+vector<solution> GA::selectParent_R(population pop)
 {
     vector<solution> parents;
     // sort by value before selection
@@ -291,3 +313,6 @@ void GA::crossingover(solution &chromosoem1, solution &chromosome2, int index)
  */
 int GA::getRandomRange() { return random_range; }
 void GA::setRandomRange(int _random_range) { random_range = _random_range; }
+// 0:tournament selection
+// 1:roulette wheel
+void GA::setSelectionMethod(int method) { selectionMethod = method;}

@@ -31,7 +31,7 @@ void TS::run(Knap *knap_ptr)
     solution candidate;
     solution tmp;
 
-    while (best != opt)
+    while (best != opt && numberOfEvaluation < 20000)
     {
         if (tabu->size() >= tabu->getMaxsize())
         {
@@ -59,21 +59,16 @@ void TS::run(Knap *knap_ptr)
             tabu->enqueue(candidate);
         }
 
-        determine(candidate,best);
+        determine(candidate, best);
 
         output << numberOfEvaluation << ' ' << fitness(best) << endl;
-    }
-
-    if(best == opt){
-        cout << endl;
-        cout << "opt found! >";
-        showSolution(best);
-        cout << endl;
     }
 
     output.close();
 
     knap_ptr->setIteration(numberOfEvaluation);
+    
+    knap_ptr->setBest(best);
 
     sequence++;
 }
@@ -138,9 +133,8 @@ void TS::determine(solution candidate, solution &origin)
 }
 
 /* getter and setter */
-void TS::setRandomRange(int random_range){ this->random_range = random_range; }
-int TS::getRandomRange(){ return this->random_range; }
-
+void TS::setRandomRange(int random_range) { this->random_range = random_range; }
+int TS::getRandomRange() { return this->random_range; }
 
 /*
  * Tabu 

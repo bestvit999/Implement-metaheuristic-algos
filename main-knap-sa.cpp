@@ -1,5 +1,6 @@
 #include "header.h"
 #include <numeric>
+#include <algorithm>
 #include <cstdlib>
 
 using namespace std;
@@ -20,25 +21,24 @@ int main(int argc, char *argv[])
 
     /* construct the Prob and SearchAlgo object */
     Knap *knap_ptr = new Knap(path_to_folder);
-    SA *sa_ptr = new SA(temperature,alpha);
+    SA *sa_ptr = new SA(temperature, alpha);
     sa_ptr->setRandomRange(random_range);
 
     /* show prob information */
+    cout << "==Knap-SA==" << endl;
     knap_ptr->showAllmember(); // list knapsack information
-    knap_ptr->showCandidate();
-    cout << "-- -- -- --" << endl;
 
     /* do several times */
     vector<int> iterList;
     for (int i = 0; i < runs; i++)
     {
         knap_ptr->run(sa_ptr);
-        cout << "=" << endl;
-
         iterList.push_back(knap_ptr->iterations);
     }
 
     showResult(iterList);
+    showSolution(knap_ptr->getBest());
+    cout << "\n===========" << endl;
 
     /* Remark : remember to delete useless ptr */
     delete sa_ptr;
@@ -48,8 +48,8 @@ int main(int argc, char *argv[])
 void showResult(vector<int> iterList)
 {
 
-    int maxIndex = max_element(iterList.begin(),iterList.end()) - iterList.begin() + 1;
-    int minIndex = min_element(iterList.begin(),iterList.end()) - iterList.begin() + 1;
+    int maxIndex = max_element(iterList.begin(), iterList.end()) - iterList.begin() + 1;
+    int minIndex = min_element(iterList.begin(), iterList.end()) - iterList.begin() + 1;
 
     int max = *max_element(iterList.begin(), iterList.end()); // `*` before max_element that is because ´max_element´ returns an iterator
     int min = *min_element(iterList.begin(), iterList.end());
@@ -62,7 +62,7 @@ void showResult(vector<int> iterList)
     // for gnuplot the <index of output data>
     string command1 = "sed -e 's/$minsa/";
     string command2 = "/g' figure-template.plt > figure.plt";
-    string command = command1 + to_string(maxIndex) + command2;
+    string command = command1 + to_string(minIndex) + command2;
     char const *ptr = command.c_str();
     system(ptr);
 }
