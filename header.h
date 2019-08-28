@@ -160,6 +160,40 @@ public:
 };
 #endif
 
+//=============================//
+//          ALGO_PSO          //
+//===========================//
+typedef vector<double> particle;
+typedef vector<double> velocity;
+
+#ifndef ALGOPSO_H
+#define ALGOPSO_H
+class Function;
+class PSO{
+    private:
+        Function *f_ptr;
+        vector<particle> xlist;
+        vector<velocity> vlist;
+
+        vector<particle> pblist; // cognitive learning factor
+        particle gb; // social learning factor
+    public:
+        PSO(Function *f_ptr,int numParticle,int dimension);
+        void init(int numParticle, int dimension);
+        double evaluate(particle x);
+        void udpateParticle();
+        void initGB();
+        bool isOpt();
+
+        void showParticle();
+        void showGB();
+
+        void plot();
+        void outFile();
+};
+#endif // ALGOPSO_H
+
+
 //=====================================//
 //           Problem Section          //
 //===================================//
@@ -204,6 +238,17 @@ public:
     void setIteration(int iter);
 };
 #endif
+
+//=============================//
+//      PROB_FUNC_ACKLEY      //
+//===========================//
+#ifndef PROBACKLEY_H
+#define PROBACKLEY_H
+class Function{
+    public:
+        double evaluate(particle x);
+};
+#endif // PROBACKLEY_H
 
 // local function
 vector<int> readfile(string);
